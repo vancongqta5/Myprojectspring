@@ -2,6 +2,7 @@ package com.example.testjpa.controller;
 
 import com.example.testjpa.model.User;
 import com.example.testjpa.repository.UserRepository;
+import com.example.testjpa.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,14 +10,21 @@ import java.util.List;
 @RestController
 public class UserController {
     private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
-
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    //new
+    @GetMapping("/name/{name}")
+    public List<User> getUsersByName(@PathVariable String name) {
+        return userService.findUsersByName(name);
     }
 
     @PostMapping("/users")
