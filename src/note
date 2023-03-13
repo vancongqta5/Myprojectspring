@@ -1,0 +1,38 @@
+ProjectLoveGPT là một ứng dụng web sử dụng Spring Boot và JPA để tạo và quản lý các đối tượng người dùng trong
+cơ sở dữ liệu MySQL. Ứng dụng cung cấp một API RESTful cho phép các yêu cầu HTTP
+được gửi đến và xử lý thông qua các phương thức CRUD (Create, Read, Update, Delete)
+cho các đối tượng người dùng.
+
+Để triển khai ứng dụng, file docker-compose được sử dụng để triển khai cơ sở dữ liệu
+MySQL, bao gồm cấu hình cho các biến môi trường như tên người dùng,
+mật khẩu và cơ sở dữ liệu.
+
+File UserController.java là một Spring MVC RestController định nghĩa các phương thức
+ API để thực hiện các yêu cầu RESTful. Đối với các yêu cầu GET, danh sách tất cả các
+ đối tượng người dùng được truy xuất từ cơ sở dữ liệu thông qua repository và trả về
+  dưới dạng một danh sách JSON. Đối với các yêu cầu POST, một đối tượng người dùng
+  mới được tạo và lưu vào cơ sở dữ liệu thông qua repository. Đối với các yêu cầu
+   PUT, một đối tượng người dùng được cập nhật trong cơ sở dữ liệu thông qua
+   repository. Đối với các yêu cầu DELETE, một đối tượng người dùng được xóa khỏi
+   cơ sở dữ liệu thông qua repository.
+
+File User.java định nghĩa các thuộc tính cho một đối tượng người dùng, bao gồm tên,
+ email và id.
+
+File UserRepository.java là một interface JPA repository mô tả các phương thức
+để truy xuất, lưu trữ và xóa các đối tượng người dùng từ cơ sở dữ liệu.
+
+File UserService.java là một service class đơn giản cho phép lưu một đối tượng người
+ dùng mới vào cơ sở dữ liệu thông qua repository.
+
+File TestjpaApplication.java là file chính để chạy ứng dụng và cấu hình Spring Boot.
+Nó có annotation @SpringBootApplication để chứa tất cả các annotation cần thiết cho
+cấu hình của Spring Boot.
+
+File application.properties cung cấp các thông số cấu hình cho ứng dụng, bao gồm
+đường dẫn URL cho cơ sở dữ liệu, tên người dùng, mật khẩu và cấu hình Hibernate để
+tự động tạo bảng trong cơ sở dữ liệu.
+
+File pom.xml là file cấu hình Maven để quản lý các phụ thuộc và triển khai ứng dụng.
+ Các phụ thuộc bao gồm các module Spring Boot cho Spring MVC, Spring Data JPA và
+ MySQL connector.

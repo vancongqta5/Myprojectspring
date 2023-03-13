@@ -1,4 +1,4 @@
-package com.example.testjpa.model;
+package com.example.testjpa.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

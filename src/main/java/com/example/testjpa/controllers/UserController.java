@@ -1,8 +1,8 @@
-package com.example.testjpa.controller;
+package com.example.testjpa.controllers;
 
-import com.example.testjpa.model.User;
-import com.example.testjpa.repository.UserRepository;
-import com.example.testjpa.service.UserService;
+import com.example.testjpa.models.User;
+import com.example.testjpa.repositories.UserRepository;
+import com.example.testjpa.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

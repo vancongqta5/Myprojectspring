@@ -1,8 +1,7 @@
-package com.example.testjpa.service;
+package com.example.testjpa.services;
 
-import com.example.testjpa.model.User;
-import com.example.testjpa.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.testjpa.models.User;
+import com.example.testjpa.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +18,9 @@ public class UserService {
 
     public List<User> findUsersByName(String name) {
         return userRepository.findByName(name);
+    }
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }
 //@Service
