@@ -5,8 +5,11 @@ import com.example.testjpa.repositories.UserRepository;
 import com.example.testjpa.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -23,12 +26,14 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+//@ExtendWith(MockitoExtension.class)
+//@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.Silent.class)
 public class UserControllerTest {
     @Mock
     private UserRepository userRepository;
     @Mock
     private UserService userService;
-
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -39,10 +44,10 @@ public class UserControllerTest {
     }
 
     @Test
-    void testGetAllUsers() throws Exception {
+    public void testGetAllUsers() throws Exception {
         List<User> userList = Arrays.asList(
-                new User(1L, "user1", "user1@example.com"),
-                new User(2L, "user2", "user2@example.com")
+                new User(1, "user1", "user1@example.com"),
+                new User(2, "user2", "user2@example.com")
         );
         when(userRepository.findAll()).thenReturn(userList);
         mockMvc.perform(get("/users"))
@@ -54,10 +59,10 @@ public class UserControllerTest {
     }
 
     @Test
-    void testGetUsersByName() throws Exception {
+    public void testGetUsersByName() throws Exception {
         List<User> userList = Arrays.asList(
-                new User(1L, "user1", "user1@example.com"),
-                new User(2L, "user1", "user2@example.com")
+                new User(1, "user1", "user1@example.com"),
+                new User(2, "user1", "user2@example.com")
         );
         when(userService.findUsersByName(anyString())).thenReturn(userList);
         mockMvc.perform(get("/name/user1"))
@@ -69,8 +74,8 @@ public class UserControllerTest {
     }
 
     @Test
-    void testCreateUser() throws Exception {
-        User newUser = new User(1L, "newuser", "newuser@example.com");
+    public void testCreateUser() throws Exception {
+        User newUser = new User(1, "newuser", "newuser@example.com");
         when(userRepository.save(any(User.class))).thenReturn(newUser);
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -82,9 +87,9 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.email").value("newuser@example.com"));
     }
     @Test
-    void deleteUser() throws Exception {
+    public void deleteUser() throws Exception {
         // Given
-        User user = new User(1L, "test", "test@test.com");
+        User user = new User(1, "test", "test@test.com");
         userRepository.save(user);
 
         // When

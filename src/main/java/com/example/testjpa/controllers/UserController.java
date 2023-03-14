@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
+    public User updateUser(@PathVariable int id, @RequestBody User user) {
         User existingUser = userRepository.findById(id).orElse(null);
         if (existingUser == null) {
             return null;
@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public void deleteUser(@PathVariable int id) {
         userRepository.deleteById(id);
     }
 }
