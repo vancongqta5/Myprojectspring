@@ -15,9 +15,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -34,7 +34,7 @@ public class UserControllerTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         UserController userController = new UserController(userRepository, userService);
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
     }
@@ -84,15 +84,17 @@ public class UserControllerTest {
     }
     @Test
     void deleteUser() throws Exception {
-        User user = new User(1L,"test", "test@test.com");
+        // Given
+        User user = new User(1L, "test", "test@test.com");
         userRepository.save(user);
 
+        // When
         mockMvc.perform(delete("/users/{id}", user.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/users/{id}", user.getId())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+        // Then
+        Optional<User> deletedUser = userRepository.findById(user.getId());
+        assertThat(deletedUser).isEmpty();
     }
 }
