@@ -6,6 +6,7 @@ import com.example.testjpa.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,29 +28,35 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//@ExtendWith(MockitoExtension.class)
-//@RunWith(MockitoJUnitRunner.class)
-//@RunWith(MockitoJUnitRunner.Silent.class)
+@ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
+    //Khai báo đối tượng UserRepository và UserService là mock object
     @Mock
     private UserRepository userRepository;
-    @Mock
+    @InjectMocks
     private UserService userService;
+
+    // Khai báo đối tượng MockMvc để test các request/response HTTP
     private MockMvc mockMvc;
 
+    //@BeforeEach để đảm bảo việc khởi tạo các mock object trước mỗi test case
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        // Khởi tạo đối tượng UserController và MockMvc
         UserController userController = new UserController(userRepository, userService);
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
     }
 
+    // Test case cho phương thức getAllUsers
     @Test
     public void testGetAllUsers() throws Exception {
+        // Tạo danh sách các đối tượng User để sử dụng cho việc test
         List<User> userList = Arrays.asList(
                 new User(1, "user1", "user1@example.com"),
                 new User(2, "user2", "user2@example.com")
         );
+
+        // Sử dụng Mockito để mock phương thức findAll của UserRepository
         when(userRepository.findAll()).thenReturn(userList);
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
