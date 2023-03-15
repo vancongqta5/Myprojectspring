@@ -28,18 +28,19 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+//use extension of MockitoJUnit to run test cases
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
-    //Khai báo đối tượng UserRepository và UserService là mock object
+    //initialize mock objects UserRepository and Service
     @Mock
     private UserRepository userRepository;
     @InjectMocks
     private UserService userService;
 
-    // Khai báo đối tượng MockMvc để test các request/response HTTP
+    //initialize MockMvc object để test các request/response HTTP
     private MockMvc mockMvc;
 
-    //@BeforeEach để đảm bảo việc khởi tạo các mock object trước mỗi test case
+    //run before each test case
     @BeforeEach
     void setUp() {
         // Khởi tạo đối tượng UserController và MockMvc
@@ -47,7 +48,7 @@ public class UserControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
     }
 
-    // Test case cho phương thức getAllUsers
+    //run test case to test getAllUsers method of UserController
     @Test
     public void testGetAllUsers() throws Exception {
         // Tạo danh sách các đối tượng User để sử dụng cho việc test
@@ -55,8 +56,7 @@ public class UserControllerTest {
                 new User(1, "user1", "user1@example.com"),
                 new User(2, "user2", "user2@example.com")
         );
-
-        // Sử dụng Mockito để mock phương thức findAll của UserRepository
+        //create mock object UserRepository
         when(userRepository.findAll()).thenReturn(userList);
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
